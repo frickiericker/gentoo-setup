@@ -228,7 +228,7 @@ install_softwares() {
                dev-python/jupyter        \
                dev-python/matplotlib     \
                dev-python/numpy          \
-               dev-python/scipy
+               sci-libs/scipy
 
     # Fonts
     emerge -kn media-fonts/dejavu \
