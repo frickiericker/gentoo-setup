@@ -123,8 +123,8 @@ import_shared_portage_tree() {
     mkdir -p /var/log/nfs/rpc_pipefs/nfs
 
     install_data "${CONFDIR}/etc/idmapd.conf" /etc
-    assert fgrep ':/etc/portage' /etc/fstab
-    assert fgrep ':/usr/portage' /etc/fstab
+    assert fgrep '/etc/portage' /etc/fstab
+    assert fgrep '/usr/portage' /etc/fstab
 
     systemctl enable nfs-client.target || true
     systemctl enable remote-fs.target || true
