@@ -70,7 +70,7 @@ rebuild_kernel() {
 #------------------------------------------------------------------------------
 
 install_system_configs() {
-    install -T "${CONFDIR}/etc/fstab.${HOSTNAME}" /etc/fstab
+    install_data -T "${CONFDIR}/etc/fstab.${HOSTNAME}" /etc/fstab
     cat "${CONFDIR}/etc/hosts.common" >> /etc/hosts
 }
 
