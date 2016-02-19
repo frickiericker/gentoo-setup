@@ -124,6 +124,9 @@ import_shared_portage_tree() {
 
     systemctl enable nfs-client.target || true
     systemctl enable remote-fs.target || true
+
+    mount /etc/portage
+    mount /usr/portage
 }
 
 #------------------------------------------------------------------------------
