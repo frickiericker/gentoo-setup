@@ -30,12 +30,12 @@ master() {
     install_portage_configs
     export_shared_portage_tree
     setup_autoupdate_portage_tree
+    update_world
     #
     install_nis_client
     import_home_directory
     install_common_daemons
     install_softwares
-    update_world
 }
 
 worker() {
@@ -43,12 +43,12 @@ worker() {
     install_system_configs
     #
     import_shared_portage_tree
+    update_world
     #
     install_nis_client
     import_home_directory
     install_common_daemons
     install_softwares
-    update_world
 }
 
 #------------------------------------------------------------------------------
@@ -87,6 +87,10 @@ install_portage_configs() {
                  "${CONFDIR}/etc/package.use"  \
                  "${CONFDIR}/etc/package.mask" \
                  "${CONFDIR}/etc/package.accept_keywords"
+}
+
+update_world() {
+    emerge --binpkg-respect-use=y -k -uDN @world
 }
 
 #------------------------------------------------------------------------------
@@ -238,10 +242,6 @@ install_softwares() {
     # Misc.
     emerge -kn x11-apps/xeyes \
                media-gfx/imagemagick
-}
-
-update_world() {
-    emerge --binpkg-respect-use=y -k -uDN @world
 }
 
 #------------------------------------------------------------------------------
