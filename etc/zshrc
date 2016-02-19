@@ -1,0 +1,141 @@
+#------------------------------------------------------------------------------
+# Command Aliases
+#------------------------------------------------------------------------------
+
+# Convenient aliases for GNU ls.
+alias ls="ls --color"
+alias la="ls -A"
+alias ll="ls -lah"
+alias lt="ls -lahrt"
+
+#------------------------------------------------------------------------------
+# Command Invocation
+#------------------------------------------------------------------------------
+
+# Replace empty command line with default command (ls).
+: ${ZSH_DEFAULT_COMMAND:=ls}
+
+accept-line() {                     # accept-line in zshzle(1)
+    : ${BUFFER:=${ZSH_DEFAULT_COMMAND}}
+    zle .${WIDGET} "$@"
+}
+zle -N accept-line
+
+# Report execution time of command that takes 3 seconds or longer
+REPORTTIME=3                        # REPORTTIME in zshparam(1)
+
+#------------------------------------------------------------------------------
+# Key Bindings
+#------------------------------------------------------------------------------
+
+# Vi-style key bind
+bindkey -v                          # bindkey in zshzle(1)
+
+# Disable Ctrl-D exit when any job is running.
+setopt ignore_eof                   # IGNORE_EOF in zshoptions(1)
+
+zshrc+safeexit() {
+    if [ $#jobstates -gt 0 ]; then
+        case $#jobstates in
+        1) echo -n " ** You have a running job **" ;;
+        *) echo -n " ** You have $#jobstates running jobs **"
+        esac
+        zle .accept-line
+        return
+    fi
+    exit
+}
+
+zshrc+ctrl_D() {
+    [ $CURSOR -gt 0 ] || zshrc+safeexit
+}
+
+zle -N zshrc+ctrl_D
+bindkey "^D" zshrc+ctrl_D
+
+#------------------------------------------------------------------------------
+# Command Completion/Expansion
+#------------------------------------------------------------------------------
+
+autoload -U compinit; compinit      # compinit in zshcompsys(1)
+
+setopt brace_ccl                    # BRACE_CCL in zshoptions(1) and BRACE
+                                    # EXPANSION in zshexpn(1)
+
+setopt complete_aliases             # COMPLETE_ALIASES in zshoptions(1)
+setopt correct                      # CORRECT in zshoptions(1)
+
+setopt auto_cd                      # AUTO_CD in zshoptions(1)
+setopt auto_pushd                   # AUTO_PUSHD in zshoptions(1)
+setopt no_auto_remove_slash         # AUTO_REMOVE_SLASH in zshoptions(1)
+
+setopt complete_in_word             # COMPLETE_IN_WORD zshoptions(1)
+
+# Tab for forward completion, Shift-Tab for backward completion.
+# See reverse-menu-complete in zshcompsys(1).
+bindkey "\e[Z" reverse-menu-complete
+
+# Enable filename expansion in foo=bar style command options.
+set magic_equal_subst                   # MAGIC_EQUAL_SUBST in zshoptions(1)
+
+# Smart case completion
+set case_glob                           # CASE_GLOB in zshoptions(1)
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+                                        # matcher-list in zshcompsys(1) and
+                                        # COMPLETION MATCHING CONTROL in
+                                        # zshcompwid(1)
+
+#------------------------------------------------------------------------------
+# History
+#------------------------------------------------------------------------------
+
+setopt hist_ignore_dups             # HIST_IGNORE_DUPS in zshoptions(1)
+setopt hist_ignore_space            # HIST_IGNORE_SPACE in zshoptions(1)
+
+# Move the cursor to the end of the line on showing each line of the history.
+# See history-search-end in zshcontrib(1).
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end  history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+
+#------------------------------------------------------------------------------
+# Command Prompt
+#------------------------------------------------------------------------------
+
+setopt prompt_subst                 # PROMPT_SUBST in zshoptions(1)
+
+# Parameters:
+#  $1 = ISO 6429 color code
+#  $2 = The text to print
+#
+# ISO 6429 color code:
+#           foreground  background
+#   black       30          40
+#   red         31          41
+#   green       32          42
+#   yellow      33          43
+#   blue        34          44
+#   purple      35          45
+#   cyan        36          46
+#   white       37          47
+zshrc+color() {
+  echo "%{[$1m%}$2%{[m%}"
+}
+
+# See PS1 and PS2 in zshparam(1) and SIMPLE PROMPT ESCAPES in zshmisc(1)
+case ${UID} in
+0)  PS1="%/$(zshrc+color 33 '#') "
+    PS2="$(zshrc+color 33 '%_') "
+    ;;
+*)  PS1="%n $(zshrc+color 33 '%~%%') "
+    PS2="$(zshrc+color 33 '%_') "
+esac
+
+PS1="$(zshrc+color 31 ${HOST%%.*}):${PS1}"
+
+case ${UID} in
+0)  PS1="%B${PS1}%b"
+    PS2="%B${PS2}%b"
+esac

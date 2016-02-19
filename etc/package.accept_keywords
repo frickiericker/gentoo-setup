@@ -1,0 +1,20 @@
+# Core
+=sys-process/systemd-cron-1.5.3		~amd64
+
+# Dev
+=dev-lang/julia-0.4.3			~amd64
+=sys-devel/gcc-5.3.0			~amd64
+
+=dev-python/jupyter-1.0.0		~amd64
+=dev-python/ipywidgets-4.1.1		~amd64
+=dev-python/ipykernel-4.2.2		~amd64
+=dev-python/nbconvert-4.1.0		~amd64
+=dev-python/traitlets-4.1.0		~amd64
+=dev-python/jupyter_console-4.1.0	~amd64
+=dev-python/qtconsole-4.1.1		~amd64
+=dev-python/nbformat-4.0.1		~amd64
+=dev-python/jupyter_core-4.0.6		~amd64
+=dev-libs/mathjax-2.5.3			~amd64
+=dev-python/jupyter_client-4.1.1	~amd64
+=dev-python/notebook-4.1.0		~amd64
+=dev-python/ipython_genutils-0.1.0	~amd64

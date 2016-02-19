@@ -1,0 +1,27 @@
+# Default
+net-misc/iputils		-caps -filecaps
+
+# Core programs
+app-admin/sudo			-sendmail
+net-misc/netkit-rsh		pam
+sys-process/systemd-cron	python_single_target_python3_4
+
+# Libraries and platforms
+dev-libs/boost			mpi
+sci-libs/mkl			fftw int64 mpi
+sys-cluster/openmpi		mpi-threads pbs threads
+sys-cluster/torque      	cpusets munge server
+dev-python/matplotlib   	cairo latex
+virtual/mpi			threads
+
+# Compilers and development utilities
+dev-lang/R			cairo perl
+dev-python/ipython		matplotlib notebook
+sys-devel/gcc			cilk graphite
+
+# Misc. applications
+app-editors/vim			perl python ruby vim-pager
+dev-vcs/subversion		perl python ruby -dso
+dev-vcs/git			cgi subversion
+media-gfx/imagemagick		fftw graphviz
+app-text/texlive-core		xetex

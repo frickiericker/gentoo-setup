@@ -1,0 +1,8 @@
+/dev/sda2		/boot		ext2	defaults	0 2
+/dev/sda3		none		swap	sw		0 0
+/dev/sda4		/		ext4	defaults	0 1
+
+xgene:/etc.portage	/etc/portage	nfs4	ro,_netdev	0 0
+xgene:/usr.portage	/usr/portage	nfs4	rw,_netdev	0 0
+
+gene:/home		/home		nfs4	rw,_netdev	0 0

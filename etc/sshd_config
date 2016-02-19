@@ -1,0 +1,9 @@
+PermitRootLogin         yes
+PasswordAuthentication  yes
+UsePAM                  yes
+X11Forwarding           yes
+PrintMotd               no
+PrintLastLog            no
+UsePrivilegeSeparation  sandbox
+Subsystem               sftp /usr/lib64/misc/sftp-server
+AcceptEnv               LANG LC_*
